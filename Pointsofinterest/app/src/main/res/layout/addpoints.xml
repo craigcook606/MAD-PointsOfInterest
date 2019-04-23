@@ -1,0 +1,74 @@
+
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <TextView
+        android:id="@+id/mi"
+        android:layout_width="185dp"
+        android:layout_height="49dp"
+        android:text="Name:"/>
+
+    <EditText
+        android:id="@+id/etLat"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/"
+        android:inputType="numberDecimal|numberSigned"
+        />
+
+
+    <TextView
+        android:id="@+id/mo"
+        android:layout_width="185dp"
+        android:layout_height="49dp"
+        android:text="Type:"
+        />
+
+    <EditText
+        android:id="@+id/etLon"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:inputType="numberDecimal|numberSigned"
+        android:hint="@string/"
+
+
+        />
+    <TextView
+        android:id="@+id/mo"
+        android:layout_width="185dp"
+        android:layout_height="49dp"
+        android:text="Description:"
+        />
+
+    <EditText
+        android:id="@+id/etLon"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:inputType="numberDecimal|numberSigned"
+        android:hint="@string/"
+
+
+        />
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="376dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="8dp"
+        android:text="Go!"
+        />
+
+
+
+
+
+
