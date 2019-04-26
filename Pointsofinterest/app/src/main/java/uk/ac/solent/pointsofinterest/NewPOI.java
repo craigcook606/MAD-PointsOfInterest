@@ -58,10 +58,12 @@ public class NewPOI extends AppCompatActivity implements View.OnClickListener
        final EditText ett=(EditText)findViewById(R.id.ett);
        final EditText etd=(EditText)findViewById(R.id.etd);
        poi.setName(etn.toString());
-       poi.setName(ett.toString());
-       poi.setName(etd.toString());
+       poi.setType(ett.toString());
+       poi.setDescription(etd.toString());
+       poi.setLatitude(loc.getLatitude());
+       poi.setLongitude(loc.getLongitude());
 
-       .addNewPOI(poi);
+       pointofinterest.loadsave(poi);
     }
 }
 

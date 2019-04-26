@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Points of interest</string>
+    <string name="etn">name</string>
+    <string name="ett">type</string>
+    <string name="etd">description</string>
+
 </resources>
