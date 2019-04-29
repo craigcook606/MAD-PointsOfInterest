@@ -1,12 +1,14 @@
 package uk.ac.solent.pointsofinterest;
 
-public class pointofinterest
+public class Pointofinterest
 {
     private String name;
     private String type;
     private String description;
     private double longitude;
     private double latitude;
+
+
 
 
     public String getName() {
@@ -47,5 +49,16 @@ public class pointofinterest
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    @Override
+    public String toString() {
+        return "Pointofinterest{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                '}';
     }
 }
