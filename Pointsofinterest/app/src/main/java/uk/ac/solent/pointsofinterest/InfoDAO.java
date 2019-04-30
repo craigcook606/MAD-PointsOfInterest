@@ -18,9 +18,9 @@ import java.util.List;
 
 public class InfoDAO {
 
-    private static List<Pointofinterest> poilist = new ArrayList<Pointofinterest>();
+    private static List<Pointsofinterest> poilist = new ArrayList<Pointsofinterest>();
 
-    public static List<Pointofinterest> getPoilist() {
+    public static List<Pointsofinterest> getPoilist() {
         return poilist;
     }
 
@@ -44,10 +44,15 @@ public class InfoDAO {
                     String latStr = columns[3];
                     double lat = Double.parseDouble(latStr);
                     String lonStr = columns[4];
-                    Pointofinterest poi = new Pointofinterest();
+                    double lon = Double.parseDouble(lonStr);
+                    Pointsofinterest poi = new Pointsofinterest();
+
                     //do more
                     poi.setDescription(description);
-
+                    poi.setName(name);
+                    poi.setType(type);
+                    poi.setLatitude(lat);
+                    poi.setLongitude(lon);
                     poilist.add(poi);
                 }
             }
@@ -66,13 +71,14 @@ public class InfoDAO {
         }
     }
 
+
     public static void save() {
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/poi.csv"));
             // The Crown,pub,nice pub,-1.4011,50.9319
-            for (Pointofinterest poi : poilist) {
-                String line = poi.getName() + "," + poi.getType();
+            for (Pointsofinterest poi : poilist) {
+                String line = poi.getName() + "," + poi.getType() + "," + poi.getDescription() + "," + poi.getLatitude() + "," + poi.getLongitude();
                 pw.println(line);
             }
 

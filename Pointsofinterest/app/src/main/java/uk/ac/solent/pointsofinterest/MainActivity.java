@@ -19,6 +19,9 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 
 public class MainActivity extends AppCompatActivity implements LocationListener
 
@@ -26,51 +29,111 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
     MapView mv;
 
-    /** Called when the activity is first created. */
+    ItemizedIconOverlay.OnItemGestureListener<OverlayItem> markerGestureListener;
+    ItemizedIconOverlay<OverlayItem> items;
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         setContentView(R.layout.activity_main);
-        LocationManager mgr=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        LocationManager mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 
-        mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+        mgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
-        Location loc =  mgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location loc = mgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        System.out.println("debug loc=" + loc);
 
         mv = findViewById(R.id.map1);
 
         mv.setBuiltInZoomControls(true);
         mv.getController().setZoom(16);
-        mv.getController().setCenter(new GeoPoint(loc.getLatitude(),loc.getLongitude()));
+        mv.getController().setCenter(new GeoPoint(loc.getLatitude(), loc.getLongitude()));
     }
-    public void onLocationChanged(Location newLoc)
-    {
+
+    public void onLocationChanged(Location newLoc) {
         mv = findViewById(R.id.map1);
-        mv.getController().setCenter(new GeoPoint(newLoc.getLatitude(),newLoc.getLongitude()));
+        mv.getController().setCenter(new GeoPoint(newLoc.getLatitude(), newLoc.getLongitude()));
         Toast.makeText
                 (this, "Location=" +
-                        newLoc.getLatitude()+ " " +
-                        newLoc.getLongitude() , Toast.LENGTH_LONG).show();
+                        newLoc.getLatitude() + " " +
+                        newLoc.getLongitude(), Toast.LENGTH_LONG).show();
     }
-    public void onProviderDisabled(String provider)
-    {
+
+    public void onProviderDisabled(String provider) {
         Toast.makeText(this, "Provider " + provider +
                 " disabled", Toast.LENGTH_LONG).show();
     }
 
-    public void onProviderEnabled(String provider)
-    {
+    public void onProviderEnabled(String provider) {
         Toast.makeText(this, "Provider " + provider +
                 " enabled", Toast.LENGTH_LONG).show();
     }
-    public void onStatusChanged(String provider,int status,Bundle extras)
-    {
+
+    public void onStatusChanged(String provider, int status, Bundle extras) {
 
         Toast.makeText(this, "Status changed: " + status,
                 Toast.LENGTH_LONG).show();
     }
-}
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.addpoints) {
+            // react to the menu item being selected...
+            Intent intent = new Intent(this, NewPOI.class);
+            startActivityForResult(intent, 0);
+            return true;
+        }
+
+
+        return false;
+    }
+
+    class MarkerGesture implements ItemizedIconOverlay.OnItemGestureListener<OverlayItem> {
+
+        public boolean longPress(OverlayItem item) {
+            Toast.makeText(MainActivity.this, item.getSnippet(), Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        public boolean singleTap(int i, OverlayItem item) {
+            Toast.makeText(MainActivity.this, item.getSnippet(), Toast.LENGTH_SHORT).show();
+            return true;
+        }
+    }
+
+    protected void ActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                NewPOI poi = new NewPOI();
+                MapView mv = findViewById(R.id.map1);
+                Bundle extras = intent.getExtras();
+                String etn = extras.getString("name");
+                String ett = extras.getString("type");
+                String etd = extras.getString("description");
+
+
+
+
+
+
+
+            }
+        }
+
+    }
+};
+
+
+

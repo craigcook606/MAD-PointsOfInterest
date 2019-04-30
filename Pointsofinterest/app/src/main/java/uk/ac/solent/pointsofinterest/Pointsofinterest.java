@@ -1,14 +1,11 @@
 package uk.ac.solent.pointsofinterest;
 
-public class Pointofinterest
-{
+public class Pointsofinterest {
     private String name;
     private String type;
     private String description;
     private double longitude;
     private double latitude;
-
-
 
 
     public String getName() {
@@ -62,3 +59,6 @@ public class Pointofinterest
                 '}';
     }
 }
+
+
+
