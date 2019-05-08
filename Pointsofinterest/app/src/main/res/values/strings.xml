@@ -3,5 +3,9 @@
     <string name="etn">name</string>
     <string name="ett">type</string>
     <string name="etd">description</string>
+    <string name="save">save points</string>
+    <string name="load">load points</string>
+
+
 
 </resources>

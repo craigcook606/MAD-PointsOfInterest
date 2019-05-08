@@ -70,7 +70,11 @@ public class InfoDAO {
 
         }
     }
-
+    public static void addPOI(Pointsofinterest poi) {
+        load();
+        poilist.add(poi);
+        save();
+    }
 
     public static void save() {
         PrintWriter pw = null;

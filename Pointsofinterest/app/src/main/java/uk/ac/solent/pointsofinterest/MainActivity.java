@@ -1,9 +1,11 @@
 package uk.ac.solent.pointsofinterest;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.location.LocationListener;
 import android.location.Location;
 import android.content.Context;
 import android.widget.Toast;
+import android.content.Context;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -23,9 +26,15 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
-public class MainActivity extends AppCompatActivity implements LocationListener
+import android.os.AsyncTask;
+import android.preference.CheckBoxPreference;
+import android.preference.PreferenceActivity;
+import android.preference.Preference;
+import android.widget.EditText;
 
-{
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements LocationListener {
 
     MapView mv;
 
@@ -94,7 +103,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             startActivityForResult(intent, 0);
             return true;
         }
+        if (item.getItemId() == R.id.savePoint) {
+            poilist.save();
 
+            return true;
+        }
+
+        if (item.getItemId() == R.id.loadPoint) {
+            POIList.load();
+            addmarkers();
+            return true;
+        }
+        if (item.getItemId() == R.id.pref) {
+            Intent intent = new Intent(this, Pointsofinterest.class);
+            startActivity(intent);
+            return true;
+        }
 
         return false;
     }
@@ -123,17 +147,58 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                 String ett = extras.getString("type");
                 String etd = extras.getString("description");
 
+                Double lat = mv.getMapCenter().getLatitude();
+                Double lon = mv.getMapCenter().getLongitude();
+                poi.setName(name);
+                poi.setType(type);
+                poi.setDescription(description);
+                poi.setLatitude(lat);
+                poi.setlongitude(lon);
 
+                Log.d("Assignment", "lat=" + lat + "lon=" + lon);
+                POIList.add(poi);
 
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+                boolean autoupload = prefs.getBoolean("autoupload", false);
+                if (autoupload) {
+                    MyTask t = new MyTask();
+                    t.execute(poi);
+                }
 
-
+                addmarkers();
 
             }
         }
-
     }
-};
+
+    private void addmarkers() {
+        markerGestureListener = new MarkerGesture();
+
+
+        items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), markerGestureListener);
+        for (NewPOI poi : POIList.getPoiList()) {
+            System.out.println("adding poi to items:" + poi);
+            OverlayItem marker = new OverlayItem(poi.getName(), poi.getType(), poi.getDescription(), new GeoPoint(poi.getLatitude(), poi.getLongitude()));
+            items.addItem(marker);
+        }
+        mv.getOverlays().clear();
+        mv.getOverlays().add(items);
+    }
+
+    public void onResume() {
+
+
+        super.onResume();
+    }
+
+    public void onDestroy() {
+        POIList.save();
+        super.onDestroy();
+    }
+
+
+                };
 
 
 
