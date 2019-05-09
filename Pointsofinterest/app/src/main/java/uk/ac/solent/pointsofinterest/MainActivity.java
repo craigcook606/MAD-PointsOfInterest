@@ -32,7 +32,9 @@ import android.preference.PreferenceActivity;
 import android.preference.Preference;
 import android.widget.EditText;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.jar.Attributes;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
@@ -103,18 +105,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             startActivityForResult(intent, 0);
             return true;
         }
-        if (item.getItemId() == R.id.savePoint) {
+        if (item.getItemId() == R.id.savepoints) {
+            InfoDAO poilist = null;
             poilist.save();
 
             return true;
         }
 
-        if (item.getItemId() == R.id.loadPoint) {
-            POIList.load();
+        if (item.getItemId() == R.id.loadpoints) {
+            InfoDAO.load();
             addmarkers();
             return true;
         }
-        if (item.getItemId() == R.id.pref) {
+        if (item.getItemId() == R.id.preferences) {
             Intent intent = new Intent(this, Pointsofinterest.class);
             startActivity(intent);
             return true;
@@ -134,6 +137,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             Toast.makeText(MainActivity.this, item.getSnippet(), Toast.LENGTH_SHORT).show();
             return true;
         }
+
+        @Override
+        public boolean onItemSingleTapUp(int index, OverlayItem item) {
+            return false;
+        }
+
+        @Override
+        public boolean onItemLongPress(int index, OverlayItem item) {
+            return false;
+        }
     }
 
     protected void ActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -143,20 +156,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 NewPOI poi = new NewPOI();
                 MapView mv = findViewById(R.id.map1);
                 Bundle extras = intent.getExtras();
-                String etn = extras.getString("name");
-                String ett = extras.getString("type");
-                String etd = extras.getString("description");
+                String etn = extras.getString("names");
+                String ett = extras.getString("types");
+                String etd = extras.getString("descriptions");
 
                 Double lat = mv.getMapCenter().getLatitude();
                 Double lon = mv.getMapCenter().getLongitude();
-                poi.setName(name);
-                poi.setType(type);
-                poi.setDescription(description);
-                poi.setLatitude(lat);
-                poi.setlongitude(lon);
+                Pointsofinterest.setType(type);
+                Pointsofinterest.setName(name);
+                Pointsofinterest.setDescription(description);
+                Pointsofinterest.setLongitude(lat);
+                Pointsofinterest.setlongitude(lon);
 
                 Log.d("Assignment", "lat=" + lat + "lon=" + lon);
-                POIList.add(poi);
+                InfoDAO.addPOI(poi);
 
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -177,8 +190,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
 
         items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), markerGestureListener);
-        for (NewPOI poi : POIList.getPoiList()) {
-            System.out.println("adding poi to items:" + poi);
+        for (NewPOI poi : InfoDAO.getPoilist()) {
+            System.out.println("items being added:" + poi);
             OverlayItem marker = new OverlayItem(poi.getName(), poi.getType(), poi.getDescription(), new GeoPoint(poi.getLatitude(), poi.getLongitude()));
             items.addItem(marker);
         }
@@ -193,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     public void onDestroy() {
-        POIList.save();
+        InfoDAO.save();
         super.onDestroy();
     }
 

@@ -9,26 +9,32 @@ public class Pointsofinterest {
 
 
     public String getName() {
+
         return name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
-    public String getType() {
+    public String getType()
+    {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(String type)
+    {
         this.type = type;
     }
 
     public String getDescription() {
+
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
@@ -36,15 +42,18 @@ public class Pointsofinterest {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public static void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
+
     public double getLatitude() {
+
         return latitude;
     }
 
     public void setLatitude(double latitude) {
+
         this.latitude = latitude;
     }
 
@@ -57,6 +66,11 @@ public class Pointsofinterest {
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 '}';
+    }
+
+
+    public static void setlongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }
 

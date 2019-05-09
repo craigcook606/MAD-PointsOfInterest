@@ -33,7 +33,7 @@ public class NewPOI extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.addpoints);
 
         Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-        Button standard =(Button)findViewById(R.id.btn1);
+        Button standard = (Button) findViewById(R.id.btn1);
         standard.setOnClickListener(this);
 
 
@@ -52,19 +52,18 @@ public class NewPOI extends AppCompatActivity implements View.OnClickListener
         final EditText ett = (EditText) findViewById(R.id.ett);
         final EditText etd = (EditText) findViewById(R.id.etd);
 
-        bundle.putString("name", etn.getText().toString() );
+        bundle.putString("name", etn.getText().toString());
         bundle.putString("type", ett.getText().toString());
         bundle.putString("description", etd.getText().toString());
 
         intent.putExtras(bundle);
-        setResult(RESULT_OK,intent);
+        setResult(RESULT_OK, intent);
         finish();
-
-
 
 
     }
 }
+
 
 
 

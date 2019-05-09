@@ -3,8 +3,11 @@
     <string name="etn">name</string>
     <string name="ett">type</string>
     <string name="etd">description</string>
-    <string name="save">save points</string>
-    <string name="load">load points</string>
+    <string name="SaveP">Save points</string>
+    <string name="LoadP">Load points</string>
+    <string name="AddP">Add points</string>
+    <string name="pref">Preferences</string>
+
 
 
 

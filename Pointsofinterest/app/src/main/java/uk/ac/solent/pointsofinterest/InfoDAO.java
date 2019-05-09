@@ -1,10 +1,5 @@
 package uk.ac.solent.pointsofinterest;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.preference.PreferenceManager;
 import android.os.Environment;
 
 import java.io.BufferedReader;
@@ -18,9 +13,9 @@ import java.util.List;
 
 public class InfoDAO {
 
-    private static List<Pointsofinterest> poilist = new ArrayList<Pointsofinterest>();
+    private static List<NewPOI> poilist = new ArrayList<>();
 
-    public static List<Pointsofinterest> getPoilist() {
+    public static List<NewPOI> getPoilist() {
         return poilist;
     }
 
@@ -30,7 +25,7 @@ public class InfoDAO {
         try {
             poilist.clear();
             File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/poi.csv");
-            if( f.exists()) {
+            if (f.exists()) {
                 FileReader fr = new FileReader(f);
                 reader = new BufferedReader(fr);
                 String line = "";
@@ -45,7 +40,7 @@ public class InfoDAO {
                     double lat = Double.parseDouble(latStr);
                     String lonStr = columns[4];
                     double lon = Double.parseDouble(lonStr);
-                    Pointsofinterest poi = new Pointsofinterest();
+                    NewPOI poi = new NewPOI();
 
                     //do more
                     poi.setDescription(description);
@@ -70,7 +65,8 @@ public class InfoDAO {
 
         }
     }
-    public static void addPOI(Pointsofinterest poi) {
+
+    public static void addPOI(NewPOI poi) {
         load();
         poilist.add(poi);
         save();
@@ -81,7 +77,7 @@ public class InfoDAO {
         try {
             pw = new PrintWriter(new FileWriter(Environment.getExternalStorageDirectory().getAbsolutePath() + "/poi.csv"));
             // The Crown,pub,nice pub,-1.4011,50.9319
-            for (Pointsofinterest poi : poilist) {
+            for (NewPOI poi : poilist) {
                 String line = poi.getName() + "," + poi.getType() + "," + poi.getDescription() + "," + poi.getLatitude() + "," + poi.getLongitude();
                 pw.println(line);
             }
@@ -94,6 +90,6 @@ public class InfoDAO {
             if (pw != null) pw.close(); // close the file to ensure data is flushed to file
         }
     }
-
 }
+
 
