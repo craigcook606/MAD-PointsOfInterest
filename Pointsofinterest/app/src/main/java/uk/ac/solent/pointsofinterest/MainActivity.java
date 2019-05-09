@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             return true;
         }
         if (item.getItemId() == R.id.preferences) {
-            Intent intent = new Intent(this, Pointsofinterest.class);
+            Intent intent = new Intent(this, ActivityPreferences.class);
             startActivity(intent);
             return true;
         }
