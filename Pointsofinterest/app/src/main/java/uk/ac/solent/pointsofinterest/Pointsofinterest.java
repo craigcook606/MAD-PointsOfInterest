@@ -42,7 +42,7 @@ public class Pointsofinterest {
         return longitude;
     }
 
-    public static void setLongitude(Double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -69,7 +69,7 @@ public class Pointsofinterest {
     }
 
 
-    public static void setlongitude(Double longitude) {
+    public void setlongitude(Double longitude) {
         this.longitude = longitude;
     }
 }

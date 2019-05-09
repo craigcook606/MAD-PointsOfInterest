@@ -149,11 +149,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
-    protected void ActivityResult(int requestCode, int resultCode, Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
-                NewPOI poi = new NewPOI();
+                Pointsofinterest poi = new Pointsofinterest();
                 MapView mv = findViewById(R.id.map1);
                 Bundle extras = intent.getExtras();
                 String etn = extras.getString("names");
@@ -162,11 +162,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                 Double lat = mv.getMapCenter().getLatitude();
                 Double lon = mv.getMapCenter().getLongitude();
-                Pointsofinterest.setType(type);
-                Pointsofinterest.setName(name);
-                Pointsofinterest.setDescription(description);
-                Pointsofinterest.setLongitude(lat);
-                Pointsofinterest.setlongitude(lon);
+                poi.setType(ett);
+                poi.setName(etn);
+                poi.setDescription(etd);
+                poi.setLongitude(lat);
+                poi.setlongitude(lon);
 
                 Log.d("Assignment", "lat=" + lat + "lon=" + lon);
                 InfoDAO.addPOI(poi);
@@ -175,8 +175,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                 boolean autoupload = prefs.getBoolean("autoupload", false);
                 if (autoupload) {
-                    MyTask t = new MyTask();
-                    t.execute(poi);
+                    System.out.print("auto-upload enabled");
                 }
 
                 addmarkers();
@@ -190,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
 
         items = new ItemizedIconOverlay<OverlayItem>(this, new ArrayList<OverlayItem>(), markerGestureListener);
-        for (NewPOI poi : InfoDAO.getPoilist()) {
+        for (Pointsofinterest poi : InfoDAO.getPoilist()) {
             System.out.println("items being added:" + poi);
             OverlayItem marker = new OverlayItem(poi.getName(), poi.getType(), poi.getDescription(), new GeoPoint(poi.getLatitude(), poi.getLongitude()));
             items.addItem(marker);

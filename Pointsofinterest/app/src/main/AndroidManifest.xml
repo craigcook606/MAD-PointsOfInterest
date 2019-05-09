@@ -26,6 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".NewPOI" android:label="New Point of interest"></activity>
+        <activity android:name=".ActivityPreferences" android:label="preferences activity"></activity>
+
     </application>
 
 </manifest>
